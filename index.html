@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADDON FREE</title>
+
+    <!-- Font keren dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Link ke CSS eksternal -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Hamburger icon -->
+    <div class="hamburger" onclick="openMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <!-- Side menu -->
+    <div id="sideMenu" class="side-menu">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+        <a href="#">Home</a>
+        <a onclick="toggleUploadForm()">Upload Addon</a>
+        <div class="upload-form" id="uploadForm">
+            <input type="password" id="password" placeholder="Password pembuat" required><br>
+            <input type="file" id="fileInput" style="display:none;"><br>
+            <button id="loginBtn">Masuk</button>
+            <button id="uploadBtn" style="display:none;">Upload</button>
+            <div id="message" class="message"></div>
+        </div>
+        <a href="#">Tentang</a>
+    </div>
+
+    <div class="container">
+        <h1>ADDON FREE</h1>
+        <p>SAYA AKAN MEMBAGIKAN LINK ADDON DISINI SUPAYA KALIAN DAPAT MENDOWNLOAD ADDON DENGAN MUDAH</p>
+
+        <!-- Tempat link unduhan -->
+        <div id="latest-link">
+            <p>Belum ada file yang diunggah.</p>
+        </div>
+    </div>
+
+    <footer style="text-align:center;margin-top:16px;">
+        <div class="small">© <span id="year"></span> ADDON FREE</div>
+        <div class="small">PEMBUAT WEB: M.BRIAN ZAFRAN</div>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+        const correctPassword = "Brian"; // ganti password di sini
+        let uploadedFileURL = "";
+
+        function openMenu() {
+            document.getElementById("sideMenu").style.width = "250px";
+        }
+        function closeMenu() {
+            document.getElementById("sideMenu").style.width = "0";
+        }
+        function toggleUploadForm() {
+            const form = document.getElementById("uploadForm");
+            form.style.display = form.style.display === "block" ? "none" : "block";
+        }
+        document.getElementById("loginBtn").addEventListener("click", function() {
+            const pass = document.getElementById("password").value;
+            if (pass === correctPassword) {
+                document.getElementById("fileInput").style.display = "block";
+                document.getElementById("uploadBtn").style.display = "inline-block";
+                document.getElementById("password").style.display = "none";
+                this.style.display = "none";
+            } else {
+                alert("Password salah!");
+            }
+        });
+        document.getElementById("uploadBtn").addEventListener("click", function() {
+            const fileInput = document.getElementById("fileInput");
+            const file = fileInput.files[0];
+            if (!file) {
+                alert("Pilih file terlebih dahulu!");
+                return;
+            }
+            uploadedFileURL = URL.createObjectURL(file);
+            document.getElementById("latest-link").innerHTML =
+                `<p>📥 Link unduhan terbaru: <a class="download-link" href="${uploadedFileURL}" download="${file.name}">${file.name}</a></p>`;
+            document.getElementById("message").textContent = "✅ Upload berhasil (simulasi, hanya tersimpan sementara).";
+        });
+    </script>
+</body>
+</html>
